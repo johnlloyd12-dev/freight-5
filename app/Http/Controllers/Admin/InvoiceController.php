@@ -341,13 +341,11 @@ return redirect()->back()->with('success', 'PDF generated successfully and file 
 
 
 }
-//public function generateInvoice(int $orderId)
+public function mailInvoicce($id)
 
-   // {
-       //$order = Order::findOrFail($orderId);
-       // $data = ['order' => $order ];
-       // $pdf = Pdf::loadView('admin.invoices.generate', $data);
-      //  $todayDate = Carbon::now()->format('d-m-y');
-      //  return $pdf->download('imvoice'.$order->id.'-'.$todayDate.'pdf');
-   // }
+{
+    $formdetails = fms_g18_formdetails::findOrFail($id);
+    Mail::to(" $formdetails")->send(new InvoiceMail);
+    
+   }
 }

@@ -11,10 +11,6 @@
                     <h1>Dashboard</h1>
                     
                 </div>
-                <a href="#" class="report">
-                    <i class='bx bx-cloud-download'></i>
-                    <span>Generate Report</span>
-                </a>
             </div>
 
             <!-- Insights -->
@@ -36,14 +32,7 @@
                         <p>Total Expenses</p>
                     </span>
                 </li>
-                <li><i class='bx bx-dollar-circle'></i>
-                    <span class="info">
-                        <h3>
-                            0
-                        </h3>
-                        <p>Total Income</p>
-                    </span>
-                </li>
+               
             </ul>
             <!-- End of Insights -->
 

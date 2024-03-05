@@ -11,7 +11,7 @@
             <label for="theme-toggle" class="theme-toggle"></label>
             <a href="#" class="notif">
                 <i class='bx bx-bell'></i>
-                <span class="count">12</span>
+                <span class="count"></span>
             </a>
             <a href="#" class="profile">
                 <img src='/assets/img/logo.png'>

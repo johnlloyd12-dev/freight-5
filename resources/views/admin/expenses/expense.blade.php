@@ -21,7 +21,7 @@
   </thead>
   <tbody>
 
-@if (count($data) > 0)
+
 
 @foreach($data as $row)
     <tr>
@@ -66,17 +66,13 @@
        
             </tr>
           </thead>
-          <tbody>
-          @foreach($data as $row)
-          
+          <tbody>  
     <tr>
-      <th scope="row">{{ $row->type}}</th>
-      <td>{{ $row->drivers_name}}</td>
-      <td>{{ $row->amount}}</td>
-      <td>{{ $row->truck_number}}</td>
-      <td>
-      
-      @endforeach()
+      <th scope="row"></th>
+      <td></td>
+      <td></td>
+      <td></td>
+
           </tbody>
         </table>
     
@@ -94,19 +90,10 @@
       </td>
   
       
-     
-     
-
-    </tr>
-      @endforeach()
-@else
-<tr>
-  <td colspan="5" class="text-center">No Data Found</td>
-</tr>
-@endif
+      </tr>
   
     </tr>
-   
+    @endforeach
   </tbody>
 </table>
 {!! $data->links() !!}

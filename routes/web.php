@@ -33,9 +33,12 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/invoices', [App\Http\Controllers\Admin\InvoiceController::class, 'index']);
     Route::get('/invoices/view', [App\Http\Controllers\Admin\InvoiceController::class, 'vieworder'])->name('vieworder');
     Route::get('/generatePdf/generate-pdf/{id}', [InvoiceController::class, 'generatePdf'])->name('generate.pdf');
+    Route::get('/generate-pdf/{id}/mail', [InvoiceController::class, 'generatePdf'])->name('mailInvoice');
 
     Route::get('/invoices/{id}', [App\Http\Controllers\Admin\InvoiceController::class, 'invoiceview'])->name('invoice.view');
     Route::get('/manage', [App\Http\Controllers\Admin\InvoiceController::class, 'manage']);
+    Route::get('/claims', [App\Http\Controllers\Admin\ExpenseController::class, 'claims']);
+    Route::get('/warehouse', [App\Http\Controllers\Admin\ExpenseController::class, 'warehouse']);
 
     ///get data in api database stripe
       

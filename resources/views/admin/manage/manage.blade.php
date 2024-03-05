@@ -37,7 +37,7 @@
   <tbody>
     @foreach ($formdetails as $data)
     <tr>
-      <td>{{ $data->order_id }}</td>
+      <td>{{ $data->id }}</td>
       <td>{{$data->firstname}} {{$data->lastname}}</td>
       <td>{{$data->email}}</td>
     
@@ -49,9 +49,8 @@
   @endif                            
     </td>
       <td>
-       <button type="button" class="btn btn-info">View</button>
-       <button type="button" class="btn btn-secondary">Edit</button>
-       <button type="button" class="btn btn-danger">Delete</button>
+      
+       <button type="button" class="btn btn-secondary">Send</button>
 
       </td>
  

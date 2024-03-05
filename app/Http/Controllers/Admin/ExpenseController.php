@@ -21,5 +21,18 @@ class ExpenseController extends Controller
         $user = fms_g15_expenses::query('*')->get()->first();
         return view('admin.expenses.expense', compact('data', 'user'));
     }
+    
+        public function claims()
+        {
+            return view('admin.claims.claims');
+        }
+        public function warehouse()
+        {
+            return view('admin.warehouse.warehouse');
+        }
+       
+    
+       
+    
    
 }
