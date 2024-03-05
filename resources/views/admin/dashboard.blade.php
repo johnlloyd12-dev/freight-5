@@ -19,7 +19,7 @@
                     <i class='bx bx-calendar-check'></i>
                     <span class="info">
                         <h3>
-                            0
+                            {{ $data }}
                         </h3>
                         <p>Total Invoices</p>
                     </span>
@@ -27,7 +27,7 @@
                 <li><i class='bx bx-money'></i>
                     <span class="info">
                         <h3>
-                           
+                           {{$data2}}
                         </h3>
                         <p>Total Expenses</p>
                     </span>

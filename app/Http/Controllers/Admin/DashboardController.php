@@ -13,7 +13,9 @@ class DashboardController extends Controller
     {
    
         $formdetails = fms_g18_formdetails::all();
-        return view('admin.dashboard', compact('formdetails'));
+        $data = fms_g18_formdetails::count();
+        $data2 = fms_g15_expenses::sum('amount');       
+        return view('admin.dashboard', compact('formdetails','data','data2'));
     }
     public function Manage()
 {

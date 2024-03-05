@@ -18,6 +18,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use Stripe\Exception\ApiErrorException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
 
 class InvoiceController extends Controller
 {
@@ -37,7 +39,7 @@ public function add()
 public function manage()
 {
   
-$formdetails = fms_g18_formdetails::all();
+    $formdetails = fms_g18_formdetails::all();
     return view('admin.manage.manage',compact('formdetails'));
 }
 
@@ -349,3 +351,4 @@ public function mailInvoicce($id)
     
    }
 }
+

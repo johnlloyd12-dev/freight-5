@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <h2 class="mb-0">Order View</h2>
                     <a href="{{ route('generate.pdf', ['id' => $data->id]) }}" class="btn btn-success float-lg-right">Generate Invoice</a>
-                    <a href="{{ route('generate.pdf', ['id' => $data->id]) }}" class="btn btn-secondary float-lg-right">Email Invoice</a>
+                    <a href="{{ route('mailInvoice', ['id' => $data->id]) }}" class="btn btn-secondary float-lg-right">Email Invoice</a>
                 </div>
             </div>
         </div>

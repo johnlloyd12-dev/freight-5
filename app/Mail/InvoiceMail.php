@@ -13,6 +13,7 @@ class InvoiceMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+
     /**
      * Create a new message instance.
      */
@@ -37,7 +38,7 @@ class InvoiceMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'view',
         );
     }
 
@@ -48,6 +49,8 @@ class InvoiceMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            // Attachment::fromPath($this->attachedFile)
+        ];
     }
 }
