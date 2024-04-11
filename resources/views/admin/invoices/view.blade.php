@@ -2,7 +2,6 @@
 
 @section('content')
 
-@foreach ($test as $data)
 <div class="container-fluid mt-5">
     <div class="row">
         <div class="col-md-12">
@@ -10,7 +9,6 @@
                 <div class="card-body">
                     <h2 class="mb-0">Order View</h2>
                     <a href="{{ route('generate.pdf', ['id' => $data->id]) }}" class="btn btn-success float-lg-right">Generate Invoice</a>
-                    <a href="{{ route('mailInvoice', ['id' => $data->id]) }}" class="btn btn-secondary float-lg-right">Email Invoice</a>
                 </div>
             </div>
         </div>
@@ -25,7 +23,7 @@
                 <div class="row">
                     <div class="col-md-4 mt-3">
                         <div class="border p-2">
-                            <label>Order ID: {{ $data->user_id }}</label>
+                            <label>Order ID: {{ $data->id }}</label>
                             <h6></h6>
                         </div>
                     </div>
@@ -79,5 +77,5 @@
         </div>
     </div>
 </div>
-@endforeach
+
 @endsection

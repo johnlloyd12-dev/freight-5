@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Mail\InvoiceMail;
 
@@ -32,9 +32,10 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
     //invoice routes
     Route::get('/invoices', [App\Http\Controllers\Admin\InvoiceController::class, 'index']);
-    Route::get('/invoices/view', [App\Http\Controllers\Admin\InvoiceController::class, 'vieworder'])->name('vieworder');
-    Route::get('/generatePdf/generate-pdf/{id}', [InvoiceController::class, 'generatePdf'])->name('generate.pdf');
-    Route::get('/generate-pdf/{id}', [InvoiceController::class, 'generatePdf'])->name('mailInvoice');
+    Route::get('/invoices/view', [InvoiceController::class, 'vieworder'])->name('vieworder');
+    Route::get('/invoicesGenerate/{id}', [InvoiceController::class, 'generatePdf'])->name('generate.pdf');
+    Route::get('downloadpdf/{id}', [InvoiceController::class, 'downloadpdf'])->name('download.pdf');
+    // Route::get('/generate-pdf/{id}', [InvoiceController::class, 'generatePdf'])->name('mailInvoice');
     // Route::get('/generate-pdf/{id}', function($id){
     //     $formdetails = fms_g18_formdetails::findOrFail($id);
     //     $name = $formdetails->name; // Assuming name is a field in your form details
@@ -48,7 +49,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 
 
-    Route::get('/invoices/{id}', [App\Http\Controllers\Admin\InvoiceController::class, 'invoiceview'])->name('invoice.view');
+    Route::get('/invoices/{id}', [InvoiceController::class, 'invoiceview'])->name('invoice.view');
     Route::get('/manage', [App\Http\Controllers\Admin\InvoiceController::class, 'manage']);
     Route::get('/claims', [App\Http\Controllers\Admin\ExpenseController::class, 'claims']);
     Route::get('/warehouse', [App\Http\Controllers\Admin\ExpenseController::class, 'warehouse']);
@@ -66,7 +67,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     
 
     //income;expenses routes
-    Route::get('/expenses', [App\Http\Controllers\Admin\ExpenseController::class, 'view']);
+    Route::get('/expenses', [ExpenseController::class, 'view']);
 
 
 

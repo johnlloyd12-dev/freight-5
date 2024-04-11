@@ -94,9 +94,6 @@
     </style>
 </head>
 <body>
-    @foreach ($form as $data)
-        
-
     <div class="container">
         <div class="brand-section">
             <div class="row">
@@ -112,32 +109,31 @@
                 </div>
             </div>
         </div>
-
+    
         <div class="body-section">
             <div class="row">
                 <div class="col-6">
-                    <h2 class="heading">Invoice No.: {{$data->id}}</h2>
-                    <p class="sub-heading">Tracking # : {{$data->user_id}}</p>
-                    <p class="sub-heading">Order Date: {{$data->created_at}}</p>
-                    <p class="sub-heading">Email Address: {{$data->email}}</p>
+                    <h2 class="heading">Invoice No.: {{ $formdetails->id }}</h2>
+                    <p class="sub-heading">Tracking # : {{ $formdetails->user_id }}</p>
+                    <p class="sub-heading">Order Date: {{ $formdetails->created_at->format('M d Y') }}</p>
+                    <p class="sub-heading">Email Address: {{ $formdetails->email }}</p>
                 </div>
                 <div class="col-6">
-                    <p class="sub-heading">Full Name: {{$data->firstname}} {{$data->lastname}}</p>
-                    <p class="sub-heading">Address: {{$data->LocationFrom}}</p>
-                    <p class="sub-heading">Contact Number: {{$data->contact}}</p>
-                    <p class="sub-heading">Warehoude Location: {{$data->DropOffWarehouse}}</p>
-                    <p class="sub-heading">Mode Of Transport: {{$data->modeSelection}}</p>
+                    <p class="sub-heading">Full Name: {{ $formdetails->firstname }} {{ $formdetails->lastname }}</p>
+                    <p class="sub-heading">Address: {{ $formdetails->LocationFrom }}</p>
+                    <p class="sub-heading">Contact Number: {{ $formdetails->contact }}</p>
+                    <p class="sub-heading">Warehoude Location: {{ $formdetails->DropOffWarehouse }}</p>
+                    <p class="sub-heading">Mode Of Transport: {{ $formdetails->modeSelection }}</p>
                 </div>
             </div>
         </div>
-
+    
         <div class="body-section">
             <h3 class="heading">Ordered Items</h3>
             <br>
             <table class="table-bordered">
                 <thead>
                     <tr>
-
                         <th>Type Of Item</th>
                         <th class="w-20">Price</th>
                         <th class="w-20">Quantity</th>
@@ -170,13 +166,11 @@
             <h3 class="heading">Payment Status: Paid</h3>
             <h3 class="heading">Payment Method: </h3>
         </div>
-
+    
         <div class="body-section">
-            <p>&copy; Copyright 2024 - KARGADA. All rights reserved. 
-            </p>
+            <p>&copy; Copyright 2024 - KARGADA. All rights reserved. </p>
         </div>      
     </div> 
-
-    @endforeach
+    
 </body>
 </html>

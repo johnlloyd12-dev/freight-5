@@ -169,6 +169,7 @@ body{
     justify-content: center;
 }
 
+
 .sidebar .side-menu li a.logout{
     color: var(--danger);
 }

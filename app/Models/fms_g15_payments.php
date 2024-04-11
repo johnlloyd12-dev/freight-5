@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class fms_g15_payments extends Model
 {
     protected $table = 'fms_g15_payments';
+    use HasFactory;
 }

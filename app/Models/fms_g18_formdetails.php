@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class fms_g18_formdetails extends Model
 {
-    protected $table = 'fms_g18_formdetails';
-
     use HasFactory;
 
-    protected $connection = "orderdb";
+    protected $table = 'fms_g18_formdetails';
+
+    
+    protected $fillable = [
+        'id ',
+    ];
 }

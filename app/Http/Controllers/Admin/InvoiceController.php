@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Models\fms_g15_payments;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
@@ -12,7 +11,7 @@ use App\Models\Invoices;
 use Stripe\Climate\Order;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
-use App\Models\fms_g18_formdetails;
+use App\Models\fms_g16_orders;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +19,8 @@ use Stripe\Exception\ApiErrorException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
+use App\Models\fms_g18_formdetails;
+use App\Models\fms_g15_invoices;
 
 class InvoiceController extends Controller
 {
@@ -27,6 +28,7 @@ public function index(){
     $formdetails = fms_g18_formdetails::all();
     return view('admin.invoices.index',compact('formdetails'));
     }
+
 public function view()
     {
         $invoice = Invoices::latest()->paginate(5);
@@ -39,25 +41,19 @@ public function add()
 public function manage()
 {
   
-    $formdetails = fms_g18_formdetails::all();
+    $formdetails = fms_g15_invoices::all();
     return view('admin.manage.manage',compact('formdetails'));
 }
 
 public function invoiceview($id)
 {
-    
     // Retrieve form details associated with the provided ID
-    $formdetails = fms_g18_formdetails::findOrFail($id);
-    
-    // Get the user_id of the form being viewed
-    $userId = $formdetails->user_id;
-    
-    // Retrieve all form details associated with the user_id
-    $test = fms_g18_formdetails::where('user_id', $userId)->get();
+    $data = fms_g18_formdetails::findOrFail($id);
     
     // Pass the form details to the view
-    return view('admin.invoices.view', compact('formdetails','test'));
+    return view('admin.invoices.view', compact('data'));
 }
+
 
 public function payment()
 {
@@ -245,104 +241,96 @@ public function vieworder($id)
 //public function generate(int $orderId)
 public function generatePdf($id)
 {
-    //$order = Order::findOrFail($orderId);
-    //return view('admin.invoices.generate', compact('order'));
-    // $email = \App\Models\fms_g18_formdetails::distinct()->pluck('email');
-    //test 2
-    
-    // $form = fms_g18_formdetails::all();
-    // return view('admin.invoices.generate', compact('form'));
+    try {
+        // Retrieve form details associated with the provided ID
+        $data = fms_g18_formdetails::findOrFail($id);
 
-    // // Fetch form details associated with the provided ID
-    // $formdetails = fms_g18_formdetails::findOrFail($id);
+        // Initialize Dompdf
+        $dompdf = new Dompdf();
 
-    // // Get the user_id of the form being viewed
-    // $userId = $formdetails->user_id;
+        // Pass form details to the PDF view
+        $view = View::make('admin.invoices.generate')->with('formdetails', $data);
 
-    // // Retrieve all form details associated with the user_id
-    // $form = fms_g18_formdetails::where('user_id', $userId)->get();
+        // Get the HTML content of the view
+        $html = $view->render();
 
-    // // Initialize Dompdf
-    // $dompdf = new Dompdf();
+        // Load HTML content into Dompdf
+        $dompdf->loadHtml($html);
 
-    // // Pass form details to the PDF view
-    // $view = View::make('admin.invoices.generate')->with('formdetails', $formdetails)->with('form', $form);
+        // Set paper size and orientation (optional)
+        $dompdf->setPaper('A4', 'portrait');
 
-    // // Get the HTML content of the view
-    // $html = $view->render();
+        // Render HTML as PDF
+        $dompdf->render();
 
-    // // Load HTML content into Dompdf
-    // $dompdf->loadHtml($html);
+        // Generate a unique file name
+        $fileName = 'invoice_' . uniqid() . '.pdf';
 
-    // // Set paper size and orientation (optional)
-    // $dompdf->setPaper('A4', 'portrait');
+        // Save the PDF content to storage
+        $pdfContent = $dompdf->output();
+        Storage::disk('public')->put($fileName, $pdfContent);
 
-    // // Render HTML as PDF
-    // $dompdf->render();
+        // Create a new record in fms_g15_invoices with the mapped data
+        fms_g15_invoices::create([
+            'id' => $data->id,
+            'invoice_number' => $data->order_id,
+            'payment_method' => null, // Set to null or specify payment method logic
+            'customer_name' => $data->firstname . ' ' . $data->lastname,
+            'company_name' => $data->consigneeName,
+            'carrier' => $data->modeSelection,
+            'status' => 'Invoice',
+        ]);
 
-    // // Generate a unique file name
-    // $fileName = 'document_' . uniqid() . '.pdf';
+        return redirect()->back()->with('success', 'PDF generated successfully and file name saved.');
+    } catch (\Exception $e) {
+        // Log the error
+        \Log::error('Error generating PDF: ' . $e->getMessage());
 
-    // // Save the PDF content to storage
-    // Storage::disk('public')->put($fileName, $dompdf->output());
-
-    // // Save the file name in the database
-    // $formdetails->pdf_file = $fileName;
-    // $formdetails->save();
-
-    // return redirect()->back()->with('success', 'PDF generated successfully and file name saved.');
-    // return dd('ok');
-
-    //test3
-    // Fetch form details associated with the provided ID
-$formdetails = fms_g18_formdetails::findOrFail($id);
-
-// Get the user_id of the form being viewed
-$userId = $formdetails->user_id;
-
-// Retrieve all form details associated with the user_id
-$form = fms_g18_formdetails::where('user_id', $userId)->get();
-
-// Initialize Dompdf
-$dompdf = new Dompdf();
-
-// Pass form details to the PDF view
-$view = View::make('admin.invoices.generate')->with('formdetails', $formdetails)->with('form', $form);
-
-// Get the HTML content of the view
-$html = $view->render();
-
-// Load HTML content into Dompdf
-$dompdf->loadHtml($html);
-
-// Set paper size and orientation (optional)
-$dompdf->setPaper('A4', 'portrait');
-
-$dompdf->loadHtml($html);
-
-// Render HTML as PDF
-$dompdf->render();
-
-// Output PDF directly to the browser for display
-$dompdf->stream();
-
-// $dompdf->stream();
-
-// Generate a unique file name
-$fileName = 'document_' . uniqid() . '.pdf';
-
-// Save the PDF content to storage
-Storage::disk('public')->put($fileName, $dompdf->output());
-
-// Save the file name in the database
-$formdetails->pdf_file = $fileName;
-// return dd($formdetails);
-$formdetails->save();
-
-return redirect()->back()->with('success', 'PDF generated successfully and file name saved.');
-
-
+        // Return error message
+        return redirect()->back()->with('error', 'Error generating PDF. Please try again later.');
+    }
 }
+
+public function downloadpdf($id)
+{
+    // Retrieve form details associated with the provided ID
+    $data = fms_g18_formdetails::findOrFail($id);
+
+    // Initialize Dompdf
+    $dompdf = new Dompdf();
+
+    // Pass form details to the PDF view
+    $view = View::make('admin.invoices.generate')->with('formdetails', $data);
+
+    // Get the HTML content of the view
+    $html = $view->render();
+
+    // Load HTML content into Dompdf
+    $dompdf->loadHtml($html);
+
+    // Set paper size and orientation (optional)
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render HTML as PDF
+    $dompdf->render();
+
+    // Generate a unique file name
+    $fileName = 'invoice_' . uniqid() . '.pdf';
+
+    // Save the PDF content to storage
+    $pdfContent = $dompdf->output();
+    Storage::disk('public')->put($fileName, $pdfContent);
+
+    // Set the headers for PDF download
+    $headers = [
+        'Content-Type' => 'application/pdf',
+    ];
+
+    // Return the PDF as a download response
+    return response()->download(storage_path("app/public/$fileName"), $fileName, $headers);
+}
+
+
 public function mailInvoicce($id)
 
 {

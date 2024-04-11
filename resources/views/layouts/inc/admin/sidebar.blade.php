@@ -6,7 +6,7 @@
         </a>
         <ul class="side-menu">
             <li><a href=" {{ url('/admin/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="#"><i class='bx bx-store-alt'></i>Invoices</a></li>
+            <li><a href="#"><i class='bx bx-store-alt'></i>Invoices/Payments</a></li>
             <li><a  id="subMenu" style="opacity: 1" href=" {{ url('/admin/invoices') }}"></i>Orders</a></li>
             <li><a  id="subMenu" style="opacity: 1" href=" {{ url('/admin/manage') }}"></i>Manage Invoices</a></li>
             <li><a  id="subMenu" style="opacity: 1" href=" {{ url('/admin/paymentshistory') }}"></i>Payment History</a></li>
